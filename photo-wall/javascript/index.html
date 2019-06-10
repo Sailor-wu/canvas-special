@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>01_Object构造函数模式</title>
+</head>
+<body>
+
+<script type="text/javascript">
+    /*
+    方式一: Object构造函数模式
+    * 套路: 先创建空Object对象, 再动态添加属性/方法
+    * 适用场景: 起始时不确定对象内部数据
+    * 问题: 语句太多
+    */
+    // 先创建空Object对象
+    var p = new Object()
+    p = {} //此时内部数据是不确定的
+    // 再动态添加属性/方法
+    p.name = 'Tom'
+    p.age = 12
+    p.setName = function (name) {
+        this.name = name
+    }
+
+    //测试
+    console.log(p.name, p.age)
+    p.setName('Bob')
+    console.log(p.name, p.age)
+
+
+    /*
+    * 方式二  对象字面量
+    *套路: 使用{}创建对象, 同时指定属性/方法
+    * 适用场景: 起始时对象内部数据是确定的
+    * 问题: 如果创建多个对象, 有重复代码
+    */
+    
+    var person ={
+        name :"wuhaiyuan",
+        age : 22,
+        setName :function(name){
+            this.name = name
+        }
+    }
+
+    console.log(person.name);
+    person.setName("dengchuen");
+    console.log(person.name);
+
+    /*
+    方式三：工厂模式创建对象
+    * 套路: 通过工厂函数动态创建对象并返回
+    * 适用场景: 需要创建多个对象
+    * 问题: 对象没有一个具体的类型, 都是Object类型
+    */
+    function createPerson(name,age) {
+        
+        var obj = {
+            name : name,
+            age : age,
+            setName :function(name){
+                this.name = name;
+            }
+        }
+        // 创建完毕返回obj
+        return obj;
+    }
+
+    // 返回的都是object
+    var person2 = createPerson("zhangsan",22);
+    var person3 = createPerson("zhangsan",22);
+    var person4 = createPerson("zhangsan",22);
+    console.log(person2)
+    person2.setName("why");
+    console.log(person2)
+
+    /*
+    方式 5 ： 自定义构造函数
+    * 套路: 自定义构造函数, 通过new创建对象
+    * 适用场景: 需要创建多个类型确定的对象
+    * 问题: 每个对象都有相同的数据, 浪费内存
+    */
+    function PersonWoman(name,age) {
+        this.name = name,
+        this.age = age,
+        setName = function(name){
+            this.name = name;
+        }
+    }
+
+    function PersonMan(name,age) {
+        this.name = name,
+        this.age = age,
+        setName = function(name){
+            this.name = name;
+        }
+    }
+
+    var man = new PersonMan("wuhaiyuan",22);
+    var woman = new PersonWoman("dengchuen",20);
+
+    console.log(man);
+    console.log(woman);
+    console.log(man instanceof PersonMan);
+    console.log(woman instanceof PersonWoman);
+
+    var item = new Array();
+    item.push("abc");
+    item.push("abc");
+    item.push("abc");
+    Array.prototype.forEach(function(item, index){
+        console.log(index);
+    })
+
+</script>
+<script src="template-web.js"></script>
+
+<script id="tpl-user" type="text/html">
+   var a = 19;
+    {{if a}
+      <h2>{{a}}</h2>
+    {{/if}}
+
+    
+
+</script>
+</body>
+</html>
